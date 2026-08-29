@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+ok import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
@@ -124,7 +124,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en" translate="no" className="notranslate">
       <head>
         <HeadContent />
-        <meta name="google-site-verification" content="bunu_silip_kodu_yaz" />
+        
 
 
         
