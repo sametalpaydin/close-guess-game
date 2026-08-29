@@ -77,11 +77,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      // The UI is English-only; block browser auto-translate, which was
+      // rewriting text nodes (and breaking hydration) for some locales.
+      { name: "google", content: "notranslate" },
+      { title: "CLOSE — How close can you get?" },
+      {
+        name: "description",
+        content:
+          "CLOSE is a free daily guessing game. Five visual estimation questions a day. Guess, submit, and see how close you are to everyone else.",
+      },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "CLOSE — How close can you get?" },
+      {
+        property: "og:description",
+        content:
+          "Five daily visual estimation puzzles. Free to play. See how close you are.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
@@ -108,7 +119,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" translate="no" className="notranslate">
       <head>
         <HeadContent />
       </head>
