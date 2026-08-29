@@ -87,6 +87,17 @@ export function accuracyPercent(guess: number, answer: number): number {
   return Math.max(0, Math.round((1 - Math.abs(guess - answer) / denom) * 100));
 }
 
+/** Absolute distance between guess and answer, rounded for display. */
+export function offBy(guess: number, answer: number): number {
+  return Math.round(Math.abs(guess - answer) * 100) / 100;
+}
+
+/** Estimated global rank for a total score (1 = best). */
+export function rankFor(score: number): number {
+  const pct = percentileFor(score);
+  return Math.max(1, Math.round(PLAYERS_TODAY * (1 - pct / 100)));
+}
+
 export function verdict(points: number): string {
   if (points >= 950) return "PERFECT";
   if (points >= 820) return "SO CLOSE";
@@ -118,8 +129,13 @@ export function percentileFor(score: number): number {
   return Math.max(1, Math.min(99, Math.round(1 + Math.pow(ratio, 1.6) * 98)));
 }
 
-export const TODAY_LABEL = new Date().toLocaleDateString("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-});
+const MONTHS = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+
+// Deterministic (UTC) so SSR and client always render the same label.
+export const TODAY_LABEL = (() => {
+  const d = new Date();
+  return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+})();
