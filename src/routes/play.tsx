@@ -67,12 +67,8 @@ function Play() {
     setIndex((i) => Math.min(i + 1, QUESTIONS.length - 1));
   }
 
-  function restart() {
-    setResults([]);
-    setRevealed(null);
-    setInput("");
-    setIndex(0);
-  }
+
+
 
   async function share() {
     try {
@@ -283,8 +279,15 @@ function Play() {
                   <div className="text-[11px] text-muted-foreground">World avg</div>
                 </div>
               </div>
-              <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-sm">
-                <span className="text-muted-foreground">{revealed.accuracy}% accurate</span>
+              <div className="mt-4 rounded-xl bg-secondary px-4 py-3 text-center text-sm">
+                Off by{" "}
+                <span className="num-tabular font-semibold">
+                  {offBy(revealed.guess, q.answer)} {q.unit}
+                </span>{" "}
+                · {revealed.accuracy}% accurate
+              </div>
+              <div className="mt-4 flex items-center justify-between border-t border-border pt-4 text-sm">
+                <span className="text-muted-foreground">Points earned</span>
                 <span className="num-tabular font-display font-bold text-primary">
                   +{revealed.points} pts
                 </span>
