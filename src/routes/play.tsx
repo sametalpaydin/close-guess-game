@@ -169,20 +169,21 @@ function Play() {
             </div>
           </div>
 
-          <div className="mt-6 flex gap-3">
-            <button
-              onClick={restart}
-              className="h-12 flex-1 rounded-xl border border-border text-sm font-semibold card-surface"
-            >
-              Play again
-            </button>
-            <Link
-              to="/"
-              className="flex h-12 flex-1 items-center justify-center rounded-xl border border-border text-sm font-semibold card-surface"
-            >
-              Home
-            </Link>
+          <div className="mt-8 rounded-2xl border border-border p-5 text-center card-surface">
+            <p className="font-display text-sm font-bold uppercase tracking-[0.2em]">
+              Play again tomorrow
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              A new set of 5 questions drops at midnight. See you then.
+            </p>
           </div>
+
+          <Link
+            to="/"
+            className="mt-4 flex h-12 w-full items-center justify-center rounded-xl border border-border text-sm font-semibold card-surface"
+          >
+            Home
+          </Link>
         </div>
       </main>
     );
@@ -196,7 +197,7 @@ function Play() {
             CLOSE
           </Link>
           <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
-            Today's Challenge
+            Question {Math.min(results.length + 1, QUESTIONS.length)} of {QUESTIONS.length}
           </span>
         </header>
 
