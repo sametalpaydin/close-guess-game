@@ -88,7 +88,7 @@ function Play() {
       results.reduce((s, r) => s + r.accuracy, 0) / results.length,
     );
     return (
-      <main className="min-h-screen bg-hero-glow px-5 pb-16 pt-12">
+      <main translate="no" className="notranslate min-h-screen bg-hero-glow px-5 pb-16 pt-12">
         <div className="mx-auto w-full max-w-md">
           <p className="text-center text-xs uppercase tracking-[0.35em] text-muted-foreground">
             Your Score · {TODAY_LABEL}
@@ -137,6 +137,7 @@ function Play() {
           </p>
 
           <button
+            translate="no"
             onClick={share}
             className="mt-6 flex h-14 w-full items-center justify-center rounded-2xl font-display text-base font-bold uppercase tracking-[0.18em] transition-transform active:scale-[0.97] cta-gradient"
           >
@@ -178,6 +179,7 @@ function Play() {
           </div>
 
           <Link
+            translate="no"
             to="/"
             className="mt-4 flex h-12 w-full items-center justify-center rounded-xl border border-border text-sm font-semibold card-surface"
           >
