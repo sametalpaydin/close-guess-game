@@ -88,7 +88,7 @@ function Play() {
       results.reduce((s, r) => s + r.accuracy, 0) / results.length,
     );
     return (
-      <main className="min-h-screen bg-hero-glow px-5 pb-16 pt-12">
+      <main translate="no" className="notranslate min-h-screen bg-hero-glow px-5 pb-16 pt-12">
         <div className="mx-auto w-full max-w-md">
           <p className="text-center text-xs uppercase tracking-[0.35em] text-muted-foreground">
             Your Score · {TODAY_LABEL}
@@ -137,6 +137,7 @@ function Play() {
           </p>
 
           <button
+            translate="no"
             onClick={share}
             className="mt-6 flex h-14 w-full items-center justify-center rounded-2xl font-display text-base font-bold uppercase tracking-[0.18em] transition-transform active:scale-[0.97] cta-gradient"
           >
@@ -178,6 +179,7 @@ function Play() {
           </div>
 
           <Link
+            translate="no"
             to="/"
             className="mt-4 flex h-12 w-full items-center justify-center rounded-xl border border-border text-sm font-semibold card-surface"
           >
@@ -189,10 +191,10 @@ function Play() {
   }
 
   return (
-    <main className="min-h-screen px-5 pb-10 pt-8">
+    <main translate="no" className="notranslate min-h-screen px-5 pb-10 pt-8">
       <div className="mx-auto w-full max-w-md">
         <header className="flex items-center justify-between">
-          <Link to="/" className="font-display text-lg font-bold tracking-tight">
+          <Link translate="no" to="/" className="font-display text-lg font-bold tracking-tight">
             CLOSE
           </Link>
           <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
@@ -231,27 +233,30 @@ function Play() {
             <div className="mt-6">
               <div className="flex items-center gap-3 rounded-2xl border border-input px-4 py-3 card-surface">
                 <input
+                  translate="no"
                   inputMode="decimal"
                   type="number"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && submit()}
                   placeholder="0"
-                  className="num-tabular w-full bg-transparent font-display text-3xl font-bold outline-none placeholder:text-muted-foreground"
+                  className="notranslate num-tabular w-full bg-transparent font-display text-3xl font-bold outline-none placeholder:text-muted-foreground"
                 />
                 <span className="shrink-0 text-sm text-muted-foreground">{q.unit}</span>
               </div>
               <input
+                translate="no"
                 type="range"
                 min={0}
                 max={q.max}
                 step={q.step}
                 value={Number(input) || 0}
                 onChange={(e) => setInput(e.target.value)}
-                className="mt-5 w-full accent-[var(--primary)]"
+                className="notranslate mt-5 w-full accent-[var(--primary)]"
                 aria-label="Adjust your guess"
               />
               <button
+                translate="no"
                 onClick={submit}
                 disabled={input.trim() === ""}
                 className="mt-5 flex h-14 w-full items-center justify-center rounded-2xl font-display text-base font-bold uppercase tracking-[0.18em] transition-transform active:scale-[0.97] disabled:opacity-40 cta-gradient"
@@ -296,6 +301,7 @@ function Play() {
                 </span>
               </div>
               <button
+                translate="no"
                 onClick={() => (results.length === QUESTIONS.length ? setRevealed(null) : next())}
                 className="mt-5 flex h-13 w-full items-center justify-center rounded-xl border border-border py-3 font-display text-sm font-bold uppercase tracking-[0.18em] active:scale-[0.98]"
               >
