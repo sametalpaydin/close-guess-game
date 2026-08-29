@@ -6,7 +6,9 @@ import {
   QUESTIONS,
   TODAY_LABEL,
   accuracyPercent,
+  offBy,
   percentileFor,
+  rankFor,
   scoreGuess,
   verdict,
 } from "@/lib/game";
@@ -85,6 +87,10 @@ function Play() {
 
   if (done) {
     const pct = percentileFor(total);
+    const rank = rankFor(total);
+    const avgAccuracy = Math.round(
+      results.reduce((s, r) => s + r.accuracy, 0) / results.length,
+    );
     return (
       <main className="min-h-screen bg-hero-glow px-5 pb-16 pt-12">
         <div className="mx-auto w-full max-w-md">
@@ -94,9 +100,28 @@ function Play() {
           <div className="animate-pop mt-6 rounded-3xl border border-border p-8 text-center card-surface">
             <div className="num-tabular font-display text-6xl font-bold text-primary">{total}</div>
             <p className="mt-1 text-sm text-muted-foreground">out of 5000</p>
-            <p className="mt-5 font-display text-sm uppercase tracking-[0.2em]">
-              Better than {pct}% of {PLAYERS_TODAY.toLocaleString("en-US")} players
-            </p>
+            <div className="mt-6 grid grid-cols-3 gap-2 border-t border-border pt-5">
+              <div>
+                <div className="num-tabular font-display text-lg font-bold">{avgAccuracy}%</div>
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                  Accuracy
+                </div>
+              </div>
+              <div>
+                <div className="num-tabular font-display text-lg font-bold">
+                  #{rank.toLocaleString("en-US")}
+                </div>
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                  Today's rank
+                </div>
+              </div>
+              <div>
+                <div className="num-tabular font-display text-lg font-bold">Top {100 - pct}%</div>
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                  of {PLAYERS_TODAY.toLocaleString("en-US")}
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="mt-4 grid grid-cols-5 gap-2">
