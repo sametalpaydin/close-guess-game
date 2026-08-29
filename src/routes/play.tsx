@@ -6,7 +6,9 @@ import {
   QUESTIONS,
   TODAY_LABEL,
   accuracyPercent,
+  offBy,
   percentileFor,
+  rankFor,
   scoreGuess,
   verdict,
 } from "@/lib/game";
@@ -65,12 +67,8 @@ function Play() {
     setIndex((i) => Math.min(i + 1, QUESTIONS.length - 1));
   }
 
-  function restart() {
-    setResults([]);
-    setRevealed(null);
-    setInput("");
-    setIndex(0);
-  }
+
+
 
   async function share() {
     try {
@@ -85,6 +83,10 @@ function Play() {
 
   if (done) {
     const pct = percentileFor(total);
+    const rank = rankFor(total);
+    const avgAccuracy = Math.round(
+      results.reduce((s, r) => s + r.accuracy, 0) / results.length,
+    );
     return (
       <main className="min-h-screen bg-hero-glow px-5 pb-16 pt-12">
         <div className="mx-auto w-full max-w-md">
@@ -94,9 +96,28 @@ function Play() {
           <div className="animate-pop mt-6 rounded-3xl border border-border p-8 text-center card-surface">
             <div className="num-tabular font-display text-6xl font-bold text-primary">{total}</div>
             <p className="mt-1 text-sm text-muted-foreground">out of 5000</p>
-            <p className="mt-5 font-display text-sm uppercase tracking-[0.2em]">
-              Better than {pct}% of {PLAYERS_TODAY.toLocaleString("en-US")} players
-            </p>
+            <div className="mt-6 grid grid-cols-3 gap-2 border-t border-border pt-5">
+              <div>
+                <div className="num-tabular font-display text-lg font-bold">{avgAccuracy}%</div>
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                  Accuracy
+                </div>
+              </div>
+              <div>
+                <div className="num-tabular font-display text-lg font-bold">
+                  #{rank.toLocaleString("en-US")}
+                </div>
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                  Today's rank
+                </div>
+              </div>
+              <div>
+                <div className="num-tabular font-display text-lg font-bold">Top {100 - pct}%</div>
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                  of {PLAYERS_TODAY.toLocaleString("en-US")}
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="mt-4 grid grid-cols-5 gap-2">
@@ -111,6 +132,9 @@ function Play() {
               </div>
             ))}
           </div>
+          <p className="mt-3 text-center text-xs text-muted-foreground">
+            Each question is worth up to 1000 points — the closer your guess, the more you earn.
+          </p>
 
           <button
             onClick={share}
@@ -144,20 +168,21 @@ function Play() {
             </div>
           </div>
 
-          <div className="mt-6 flex gap-3">
-            <button
-              onClick={restart}
-              className="h-12 flex-1 rounded-xl border border-border text-sm font-semibold card-surface"
-            >
-              Play again
-            </button>
-            <Link
-              to="/"
-              className="flex h-12 flex-1 items-center justify-center rounded-xl border border-border text-sm font-semibold card-surface"
-            >
-              Home
-            </Link>
+          <div className="mt-8 rounded-2xl border border-border p-5 text-center card-surface">
+            <p className="font-display text-sm font-bold uppercase tracking-[0.2em]">
+              Play again tomorrow
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              A new set of 5 questions drops at midnight. See you then.
+            </p>
           </div>
+
+          <Link
+            to="/"
+            className="mt-4 flex h-12 w-full items-center justify-center rounded-xl border border-border text-sm font-semibold card-surface"
+          >
+            Home
+          </Link>
         </div>
       </main>
     );
@@ -171,7 +196,7 @@ function Play() {
             CLOSE
           </Link>
           <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
-            Today's Challenge
+            Question {index + 1} of {QUESTIONS.length}
           </span>
         </header>
 
@@ -257,8 +282,15 @@ function Play() {
                   <div className="text-[11px] text-muted-foreground">World avg</div>
                 </div>
               </div>
-              <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-sm">
-                <span className="text-muted-foreground">{revealed.accuracy}% accurate</span>
+              <div className="mt-4 rounded-xl bg-secondary px-4 py-3 text-center text-sm">
+                Off by{" "}
+                <span className="num-tabular font-semibold">
+                  {offBy(revealed.guess, q.answer)} {q.unit}
+                </span>{" "}
+                · {revealed.accuracy}% accurate
+              </div>
+              <div className="mt-4 flex items-center justify-between border-t border-border pt-4 text-sm">
+                <span className="text-muted-foreground">Points earned</span>
                 <span className="num-tabular font-display font-bold text-primary">
                   +{revealed.points} pts
                 </span>
