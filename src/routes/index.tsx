@@ -28,7 +28,7 @@ const STEPS = [
 
 function Landing() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-hero-glow px-5 pb-16 pt-14">
+    <main translate="no" className="notranslate relative min-h-screen overflow-hidden bg-hero-glow px-5 pb-16 pt-14">
       <div className="mx-auto flex w-full max-w-md flex-col">
         <section className="animate-rise text-center">
           <p className="text-xs font-medium uppercase tracking-[0.35em] text-muted-foreground">
@@ -39,6 +39,7 @@ function Landing() {
         </section>
 
         <Link
+          translate="no"
           to="/play"
           className="animate-glow mt-10 flex h-16 items-center justify-center rounded-2xl font-display text-lg font-bold uppercase tracking-[0.18em] transition-transform duration-200 active:scale-[0.97] cta-gradient"
         >
