@@ -196,7 +196,7 @@ function Play() {
             CLOSE
           </Link>
           <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
-            Question {Math.min(results.length + 1, QUESTIONS.length)} of {QUESTIONS.length}
+            Question {index + 1} of {QUESTIONS.length}
           </span>
         </header>
 
