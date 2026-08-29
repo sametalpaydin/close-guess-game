@@ -39,7 +39,7 @@ function Play() {
   const [revealed, setRevealed] = useState<Result | null>(null);
   const [copied, setCopied] = useState(false);
 
-  const q = QUESTIONS[index];
+  const q = QUESTIONS[index]!;
   const done = results.length === QUESTIONS.length && !revealed;
   const total = results.reduce((s, r) => s + r.points, 0);
 
