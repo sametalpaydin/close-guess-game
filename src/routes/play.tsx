@@ -132,6 +132,9 @@ function Play() {
               </div>
             ))}
           </div>
+          <p className="mt-3 text-center text-xs text-muted-foreground">
+            Each question is worth up to 1000 points — the closer your guess, the more you earn.
+          </p>
 
           <button
             onClick={share}
