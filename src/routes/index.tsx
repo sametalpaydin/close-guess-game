@@ -29,12 +29,19 @@ const STEPS = [
 ];
 
 function Landing() {
+  const todayLabel = useTodayLabel();
+  const playersToday = usePlayersToday();
+
+  useEffect(() => {
+    void trackVisit();
+  }, []);
+
   return (
     <main translate="no" className="notranslate relative min-h-screen overflow-hidden bg-hero-glow px-5 pb-16 pt-14">
       <div className="mx-auto flex w-full max-w-md flex-col">
         <section className="animate-rise text-center">
           <p className="text-xs font-medium uppercase tracking-[0.35em] text-muted-foreground">
-            Daily · {TODAY_LABEL}
+            Daily{todayLabel ? ` · ${todayLabel}` : ""}
           </p>
           <h1 className="mt-5 font-display text-7xl font-bold tracking-[-0.06em]">CLOSE</h1>
           <p className="mt-3 text-base text-muted-foreground">How close can you get?</p>
@@ -50,8 +57,12 @@ function Landing() {
 
         <div className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
           <span className="inline-block size-2 animate-pulse rounded-full bg-primary" />
-          <span className="num-tabular">{PLAYERS_TODAY.toLocaleString("en-US")}</span> players today
+          <span className="num-tabular">
+            {playersToday == null ? "—" : playersToday.toLocaleString("en-US")}
+          </span>{" "}
+          players today
         </div>
+
 
         <section className="mt-12 grid gap-3">
           {STEPS.map((s, i) => (
