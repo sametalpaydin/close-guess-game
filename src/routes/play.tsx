@@ -122,9 +122,8 @@ function Play() {
                   of {playersToday == null ? "—" : playersToday.toLocaleString("en-US")}
                 </div>
               </div>
-
-              </div>
             </div>
+
           </div>
 
           <div className="mt-4 grid grid-cols-5 gap-2">
