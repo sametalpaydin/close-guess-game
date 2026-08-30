@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { GLOBAL_RANKING, PLAYERS_TODAY, TODAY_LABEL } from "@/lib/game";
+import { useEffect } from "react";
+import { GLOBAL_RANKING } from "@/lib/game";
+import { trackVisit, usePlayersToday, useTodayLabel } from "@/lib/analytics";
 
 export const Route = createFileRoute("/")({
   head: () => ({
