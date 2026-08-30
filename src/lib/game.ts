@@ -92,10 +92,10 @@ export function offBy(guess: number, answer: number): number {
   return Math.round(Math.abs(guess - answer) * 100) / 100;
 }
 
-/** Estimated global rank for a total score (1 = best). */
-export function rankFor(score: number): number {
+/** Estimated rank among today's real players (1 = best). */
+export function rankFor(score: number, playersToday: number): number {
   const pct = percentileFor(score);
-  return Math.max(1, Math.round(PLAYERS_TODAY * (1 - pct / 100)));
+  return Math.max(1, Math.round(Math.max(playersToday, 1) * (1 - pct / 100)));
 }
 
 export function verdict(points: number): string {
