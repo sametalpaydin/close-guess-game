@@ -182,7 +182,7 @@ function Admin() {
   );
 }
 
-function Stat({ label, value }: { label: string; value?: number }) {
+function Stat({ label, value }: { label: string; value: number | undefined }) {
   return (
     <div>
       <div className="num-tabular font-display text-xl font-bold text-primary">
