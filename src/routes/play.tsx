@@ -1,10 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   GLOBAL_RANKING,
-  PLAYERS_TODAY,
   QUESTIONS,
-  TODAY_LABEL,
   accuracyPercent,
   offBy,
   percentileFor,
@@ -12,6 +10,7 @@ import {
   scoreGuess,
   verdict,
 } from "@/lib/game";
+import { trackPlayStart, usePlayersToday, useTodayLabel } from "@/lib/analytics";
 
 export const Route = createFileRoute("/play")({
   head: () => ({
@@ -40,6 +39,12 @@ function Play() {
   const [results, setResults] = useState<Result[]>([]);
   const [revealed, setRevealed] = useState<Result | null>(null);
   const [copied, setCopied] = useState(false);
+  const todayLabel = useTodayLabel();
+  const playersToday = usePlayersToday();
+
+  useEffect(() => {
+    void trackPlayStart();
+  }, []);
 
   const q = QUESTIONS[index]!;
   const done = results.length === QUESTIONS.length && !revealed;
@@ -49,8 +54,8 @@ function Play() {
     const bars = results
       .map((r) => (r.points >= 950 ? "🟩" : r.points >= 700 ? "🟨" : r.points >= 400 ? "🟧" : "⬛"))
       .join("");
-    return `CLOSE · ${TODAY_LABEL}\n${bars}\n${total}/5000 — top ${100 - percentileFor(total)}%\nHow close can you get?`;
-  }, [results, total]);
+    return `CLOSE${todayLabel ? ` · ${todayLabel}` : ""}\n${bars}\n${total}/5000 — top ${100 - percentileFor(total)}%\nHow close can you get?`;
+  }, [results, total, todayLabel]);
 
   function submit() {
     const guess = Number(input);
@@ -83,7 +88,7 @@ function Play() {
 
   if (done) {
     const pct = percentileFor(total);
-    const rank = rankFor(total);
+    const rank = rankFor(total, playersToday ?? 1);
     const avgAccuracy = Math.round(
       results.reduce((s, r) => s + r.accuracy, 0) / results.length,
     );
@@ -91,7 +96,7 @@ function Play() {
       <main translate="no" className="notranslate min-h-screen bg-hero-glow px-5 pb-16 pt-12">
         <div className="mx-auto w-full max-w-md">
           <p className="text-center text-xs uppercase tracking-[0.35em] text-muted-foreground">
-            Your Score · {TODAY_LABEL}
+            Your Score{todayLabel ? ` · ${todayLabel}` : ""}
           </p>
           <div className="animate-pop mt-6 rounded-3xl border border-border p-8 text-center card-surface">
             <div className="num-tabular font-display text-6xl font-bold text-primary">{total}</div>
@@ -114,10 +119,11 @@ function Play() {
               <div>
                 <div className="num-tabular font-display text-lg font-bold">Top {100 - pct}%</div>
                 <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                  of {PLAYERS_TODAY.toLocaleString("en-US")}
+                  of {playersToday == null ? "—" : playersToday.toLocaleString("en-US")}
                 </div>
               </div>
             </div>
+
           </div>
 
           <div className="mt-4 grid grid-cols-5 gap-2">
