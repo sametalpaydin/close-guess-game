@@ -39,6 +39,12 @@ function Play() {
   const [results, setResults] = useState<Result[]>([]);
   const [revealed, setRevealed] = useState<Result | null>(null);
   const [copied, setCopied] = useState(false);
+  const todayLabel = useTodayLabel();
+  const playersToday = usePlayersToday();
+
+  useEffect(() => {
+    void trackPlayStart();
+  }, []);
 
   const q = QUESTIONS[index]!;
   const done = results.length === QUESTIONS.length && !revealed;
@@ -48,8 +54,8 @@ function Play() {
     const bars = results
       .map((r) => (r.points >= 950 ? "🟩" : r.points >= 700 ? "🟨" : r.points >= 400 ? "🟧" : "⬛"))
       .join("");
-    return `CLOSE · ${TODAY_LABEL}\n${bars}\n${total}/5000 — top ${100 - percentileFor(total)}%\nHow close can you get?`;
-  }, [results, total]);
+    return `CLOSE${todayLabel ? ` · ${todayLabel}` : ""}\n${bars}\n${total}/5000 — top ${100 - percentileFor(total)}%\nHow close can you get?`;
+  }, [results, total, todayLabel]);
 
   function submit() {
     const guess = Number(input);
