@@ -88,7 +88,7 @@ function Play() {
 
   if (done) {
     const pct = percentileFor(total);
-    const rank = rankFor(total);
+    const rank = rankFor(total, playersToday ?? 1);
     const avgAccuracy = Math.round(
       results.reduce((s, r) => s + r.accuracy, 0) / results.length,
     );
@@ -96,7 +96,7 @@ function Play() {
       <main translate="no" className="notranslate min-h-screen bg-hero-glow px-5 pb-16 pt-12">
         <div className="mx-auto w-full max-w-md">
           <p className="text-center text-xs uppercase tracking-[0.35em] text-muted-foreground">
-            Your Score · {TODAY_LABEL}
+            Your Score{todayLabel ? ` · ${todayLabel}` : ""}
           </p>
           <div className="animate-pop mt-6 rounded-3xl border border-border p-8 text-center card-surface">
             <div className="num-tabular font-display text-6xl font-bold text-primary">{total}</div>
@@ -119,8 +119,10 @@ function Play() {
               <div>
                 <div className="num-tabular font-display text-lg font-bold">Top {100 - pct}%</div>
                 <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                  of {PLAYERS_TODAY.toLocaleString("en-US")}
+                  of {playersToday == null ? "—" : playersToday.toLocaleString("en-US")}
                 </div>
+              </div>
+
               </div>
             </div>
           </div>
