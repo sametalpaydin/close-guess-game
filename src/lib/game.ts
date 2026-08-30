@@ -121,21 +121,8 @@ export const GLOBAL_RANKING: RankRow[] = [
   { name: "leo", country: "🇮🇹", score: 4098 },
 ];
 
-export const PLAYERS_TODAY = 128_463;
-
 export function percentileFor(score: number): number {
   const max = 5000;
   const ratio = Math.min(1, Math.max(0, score / max));
   return Math.max(1, Math.min(99, Math.round(1 + Math.pow(ratio, 1.6) * 98)));
 }
-
-const MONTHS = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-];
-
-// Deterministic (UTC) so SSR and client always render the same label.
-export const TODAY_LABEL = (() => {
-  const d = new Date();
-  return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
-})();
